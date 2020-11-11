@@ -12,20 +12,22 @@ func ExampleAdd() {
 }
 
 func TestAdd(t *testing.T) {
+	tests := []struct {
+		a    int
+		b    int
+		want int
+	}{
+		{2, 3, 5},
+		{5, 10, 15},
+	}
 
-	t.Run("adds to positive numbers", func(t *testing.T) {
-		got := Add(5, 5)
-		want := 10
-		if got != want {
-			t.Errorf("got '%d' want '%d'", got, want)
-		}
-	})
-
-	t.Run("adds two negative numbers", func(t *testing.T) {
-		got := Add(-5, -5)
-		want := -10
-		if got != want {
-			t.Errorf("got '%d' want '%d'", got, want)
-		}
-	})
+	for _, test := range tests {
+		name := fmt.Sprintf("adding %d + %d equals %d", test.a, test.b, test.want)
+		t.Run(name, func(t *testing.T) {
+			got := Add(test.a, test.b)
+			if got != test.want {
+				t.Errorf("got %d, want %d", got, test.want)
+			}
+		})
+	}
 }
